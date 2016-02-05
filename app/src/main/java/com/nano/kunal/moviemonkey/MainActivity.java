@@ -28,9 +28,12 @@ public class MainActivity extends AppCompatActivity {
         movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, "" + i, Toast.LENGTH_SHORT ).show();
+                Toast.makeText(MainActivity.this, "" + i, Toast.LENGTH_SHORT).show();
             }
         });
+
+        FetchMoviesTask task = new FetchMoviesTask();
+        task.execute();
 
 
     }
