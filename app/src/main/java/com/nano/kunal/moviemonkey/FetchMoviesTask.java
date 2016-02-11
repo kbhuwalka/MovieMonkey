@@ -90,6 +90,18 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, String> {
         return movieJsonString;
     }
 
+    private String[] getDataFromJson ( String jsonStr ){
+
+        final String JSON_ID = "movie_id";
+        final String JSON_TITLE = "original_title";
+        final String JSON_RELEASE_DATE = "release_date";
+        final String JSON_POPULARITY = "popularity";
+        final String JSON_VOTE_AVERAGE = "vote_average";
+        final String JSON_OVERVIEW = "overview";
+        final String JSON_BACKDROP_PATH = "backdrop_path";
+
+        return null;
+    }
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
