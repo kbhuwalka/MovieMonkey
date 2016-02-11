@@ -23,12 +23,20 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 MovieContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MovieContract.MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL, " +
                 MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
-                MovieContract.MovieEntry.COLUMN_RELEASE_DATE + " ";
+                MovieContract.MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
+                MovieContract.MovieEntry.COLUMN_POPULARITY + " REAL NOT NULL, " +
+                MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL, " +
+                MovieContract.MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
+                MovieContract.MovieEntry.COLUMN_BACKDROP_PATH + " TEXT NOT NULL " +
+                ");";
+
+        db.execSQL(SQL_CREATE_MOVIE_TABLE);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + MovieContract.MovieEntry.TABLE_NAME);
+        onCreate(db);
     }
 }

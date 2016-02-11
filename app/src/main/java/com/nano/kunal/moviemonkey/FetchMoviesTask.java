@@ -89,4 +89,10 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, String> {
 
         return movieJsonString;
     }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+    }
 }
