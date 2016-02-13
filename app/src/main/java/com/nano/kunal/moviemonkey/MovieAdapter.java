@@ -9,6 +9,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.nano.kunal.moviemonkey.Data.MovieObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by Kunal on 2/4/2016.
  */
@@ -55,6 +59,8 @@ public class MovieAdapter extends BaseAdapter {
         imageView.setImageResource(mThumbIds[i]);
         return imageView;
     }
+
+    public static ArrayList<MovieObject> mMoviesArray = new ArrayList<MovieObject>();
 
     //Reference to sample Images
     private Integer[] mThumbIds = {

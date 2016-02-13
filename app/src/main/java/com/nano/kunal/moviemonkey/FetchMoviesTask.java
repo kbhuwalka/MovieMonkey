@@ -4,6 +4,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.nano.kunal.moviemonkey.Data.MovieObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,13 +17,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Vector;
 
 /**
  * Created by Kunal on 2/5/2016.
  */
-public class FetchMoviesTask extends AsyncTask<Void, Void, String> {
+public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
+
+    public static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
+
     @Override
-    protected String doInBackground(Void... voids) {
+    protected MovieObject[] doInBackground(Void... voids) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -87,12 +97,18 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, String> {
         }
         Log.d("JSON: ", movieJsonString);
 
-        return movieJsonString;
+        try {
+            return getDataFromJson(movieJsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    private String[] getDataFromJson ( String jsonStr ){
+    private MovieObject[] getDataFromJson(String jsonStr) throws JSONException {
 
-        final String JSON_ID = "movie_id";
+        final String JSON_RESULTS = "results";
+        final String JSON_ID = "id";
         final String JSON_TITLE = "original_title";
         final String JSON_RELEASE_DATE = "release_date";
         final String JSON_POPULARITY = "popularity";
@@ -100,11 +116,47 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, String> {
         final String JSON_OVERVIEW = "overview";
         final String JSON_BACKDROP_PATH = "backdrop_path";
 
-        return null;
+
+        //The enclosing JSON object
+        JSONObject moviesJson = new JSONObject(jsonStr);
+        //Array of movies from results object
+        JSONArray results = moviesJson.getJSONArray(JSON_RESULTS);
+
+        Vector<MovieObject> movieVector = new Vector<MovieObject>();
+
+        for(int i = 0; i < results.length(); i++ ){
+
+            JSONObject movie = results.getJSONObject(i);
+            movieVector.add( new MovieObject(
+                    movie.getString(JSON_TITLE),
+                    movie.getString(JSON_RELEASE_DATE),
+                    movie.getString(JSON_OVERVIEW),
+                    movie.getString(JSON_BACKDROP_PATH),
+                    movie.getDouble(JSON_VOTE_AVERAGE),
+                    movie.getDouble(JSON_POPULARITY),
+                    movie.getLong(JSON_ID)
+            ) );
+        }
+
+        MovieObject[] movieArray = null;
+        if( movieVector.size() > 0 ){
+            movieArray = new MovieObject[movieVector.size()];
+            movieVector.toArray(movieArray);
+        }
+
+        for(int i = 0; i < movieArray.length; i++ )
+            Log.v(LOG_TAG, movieArray[i].toString());
+
+        return movieArray;
     }
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+    protected void onPostExecute(MovieObject[] movieArray) {
+        super.onPostExecute(movieArray);
+        if(movieArray != null){
+            MovieAdapter.mMoviesArray.clear();
+            for(MovieObject item : movieArray)
+                MovieAdapter.mMoviesArray.add(item);
+        }
 
     }
 }
