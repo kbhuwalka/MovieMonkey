@@ -120,7 +120,7 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
         final String JSON_POPULARITY = "popularity";
         final String JSON_VOTE_AVERAGE = "vote_average";
         final String JSON_OVERVIEW = "overview";
-        final String JSON_BACKDROP_PATH = "backdrop_path";
+        final String JSON_POSTER_PATH = "poster_path";
 
 
         //The enclosing JSON object
@@ -137,7 +137,7 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
                     movie.getString(JSON_TITLE),
                     movie.getString(JSON_RELEASE_DATE),
                     movie.getString(JSON_OVERVIEW),
-                    movie.getString(JSON_BACKDROP_PATH),
+                    movie.getString(JSON_POSTER_PATH),
                     movie.getDouble(JSON_VOTE_AVERAGE),
                     movie.getDouble(JSON_POPULARITY),
                     movie.getLong(JSON_ID)

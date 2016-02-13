@@ -5,9 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.nano.kunal.moviemonkey.Data.MovieObject;
 import com.squareup.picasso.Picasso;
@@ -55,7 +53,7 @@ public class MovieAdapter extends BaseAdapter {
 
         ImageView imageView = (ImageView) gridItem.findViewById(R.id.imageView);
 
-        Picasso.with(mContext).load(mMoviesArray.get(i).getBackdropUrl()).into(imageView);
+        Picasso.with(mContext).load(mMoviesArray.get(i).getPosterUrl()).into(imageView);
 
         return imageView;
     }

@@ -17,7 +17,7 @@ public class MovieObject {
     private String original_title;
     private String release_date;
     private String overview;
-    private String backdrop_path;
+    private String poster_path;
 
     private double vote_average;
     private double popularity;
@@ -28,7 +28,7 @@ public class MovieObject {
         original_title = title;
         release_date = release;
         overview = mOverview;
-        backdrop_path = backdrop;
+        poster_path = backdrop;
 
         vote_average = vote;
         popularity = popular;
@@ -56,14 +56,14 @@ public class MovieObject {
         return vote_average;
     }
 
-    public String getBackdropPath() {
-        return backdrop_path;
+    public String getPosterPath() {
+        return poster_path;
     }
 
-    public String getBackdropUrl(){
+    public String getPosterUrl(){
         String url = Uri.parse(BASE_IMG_URL).buildUpon()
                 .appendPath(IMG_SIZE_PATH)
-                .appendEncodedPath(backdrop_path)
+                .appendEncodedPath(poster_path)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .build()
                 .toString();
