@@ -1,9 +1,18 @@
 package com.nano.kunal.moviemonkey.Data;
 
+import android.net.Uri;
+
 /**
  * Created by Kunal on 2/12/2016.
  */
 public class MovieObject {
+
+    private static final String BASE_IMG_URL = "http://image.tmdb.org/t/p";
+    private static final String IMG_SIZE_PATH = "w500";
+    final String API_KEY_PARAM = "api_key";
+
+    //Developer Api Key
+    final String API_KEY = "85d62bbc194880880325544a0d180547";
 
     private String original_title;
     private String release_date;
@@ -49,6 +58,17 @@ public class MovieObject {
 
     public String getBackdropPath() {
         return backdrop_path;
+    }
+
+    public String getBackdropUrl(){
+        String url = Uri.parse(BASE_IMG_URL).buildUpon()
+                .appendPath(IMG_SIZE_PATH)
+                .appendEncodedPath(backdrop_path)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .build()
+                .toString();
+
+        return url;
     }
 
     public String getOverview() {

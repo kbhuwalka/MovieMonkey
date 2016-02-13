@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.nano.kunal.moviemonkey.Data.MovieObject;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class MovieAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mThumbIds.length;
+        return mMoviesArray.size();
     }
 
     @Override
@@ -40,40 +41,24 @@ public class MovieAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View returnView, ViewGroup viewGroup) {
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View gridItem;
 
-        if(view == null){
-            //If the view is not a recyc;ed one then initialize some attributes
-            gridItem = new View(mContext);
+        if(returnView == null){
+            //If the view is not a recycled one then initialize some attributes
             gridItem = inflater.inflate(R.layout.movie_grid_item_layout, null);
         } else{
-            gridItem = (ImageView) view;
+            gridItem = (ImageView) returnView;
         }
 
         ImageView imageView = (ImageView) gridItem.findViewById(R.id.imageView);
-        imageView.setImageResource(mThumbIds[i]);
 
-        imageView.setImageResource(mThumbIds[i]);
+        Picasso.with(mContext).load(mMoviesArray.get(i).getBackdropUrl()).into(imageView);
+
         return imageView;
     }
 
     public static ArrayList<MovieObject> mMoviesArray = new ArrayList<MovieObject>();
-
-    //Reference to sample Images
-    private Integer[] mThumbIds = {
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7,
-            R.drawable.sample_0, R.drawable.sample_1,
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7,
-            R.drawable.sample_0, R.drawable.sample_1,
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7
-    };
 }

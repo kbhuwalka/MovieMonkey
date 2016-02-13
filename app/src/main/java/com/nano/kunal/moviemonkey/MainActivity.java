@@ -21,9 +21,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MovieAdapter movieAdapter = new MovieAdapter(this);
+
         //Setting an Adapter to the grid
         movieGrid = (GridView) findViewById(R.id.movieGrid);
-        movieGrid.setAdapter(new MovieAdapter(this));
+        movieGrid.setAdapter(movieAdapter);
 
         movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FetchMoviesTask task = new FetchMoviesTask();
+        FetchMoviesTask task = new FetchMoviesTask(movieAdapter);
         task.execute();
 
 

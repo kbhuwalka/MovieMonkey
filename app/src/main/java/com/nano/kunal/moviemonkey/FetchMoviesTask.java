@@ -26,6 +26,12 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
 
     public static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
 
+    private MovieAdapter mAdapter;
+
+    public FetchMoviesTask(MovieAdapter adapter){
+        mAdapter = adapter;
+    }
+
     @Override
     protected MovieObject[] doInBackground(Void... voids) {
 
@@ -152,11 +158,12 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
     @Override
     protected void onPostExecute(MovieObject[] movieArray) {
         super.onPostExecute(movieArray);
-        if(movieArray != null){
+        if(movieArray != null)
             MovieAdapter.mMoviesArray.clear();
-            for(MovieObject item : movieArray)
-                MovieAdapter.mMoviesArray.add(item);
-        }
 
+        for(MovieObject item : movieArray)
+            MovieAdapter.mMoviesArray.add(item);
+
+        mAdapter.notifyDataSetChanged();
     }
 }
