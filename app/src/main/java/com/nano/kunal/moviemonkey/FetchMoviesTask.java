@@ -1,5 +1,6 @@
 package com.nano.kunal.moviemonkey;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -27,9 +28,11 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
     public static final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
 
     private MovieAdapter mAdapter;
+    private String sortQuery;
 
-    public FetchMoviesTask(MovieAdapter adapter){
+    public FetchMoviesTask(MovieAdapter adapter, String sort){
         mAdapter = adapter;
+        sortQuery = sort;
     }
 
     @Override
@@ -44,6 +47,7 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
         final String DISCOVER_PATH = "discover";
         final String MOVIE_PATH = "movie";
         final String API_KEY_PARAM = "api_key";
+        final String SORT_BY_PARAM = "sort_by";
 
         //Developer Api Key
         final String API_KEY = "85d62bbc194880880325544a0d180547";
@@ -52,6 +56,7 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
                         .appendPath(DISCOVER_PATH)
                         .appendPath(MOVIE_PATH)
                         .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                        .appendQueryParameter(SORT_BY_PARAM, sortQuery)
                         .build();
 
         try {

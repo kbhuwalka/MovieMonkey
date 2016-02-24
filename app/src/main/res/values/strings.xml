@@ -1,4 +1,29 @@
 <resources>
     <string name="app_name">Movie Monkey</string>
     <string name="action_settings">Settings</string>
+
+
+    <!--The key for choosing the category for sorting-->
+    <string name="sort_category_pref_key">sort_category</string>
+    <string name="sort_category_pref_title">Sort By</string>
+
+    <!--The labels displayed for options in the sort category-->
+    <string name="sort_category_label_popularity">Popularity</string>
+    <string name="sort_category_label_rating">Rating</string>
+
+    <!--The actual values of the options in sort category-->
+    <string name="sort_category_value_popularity">popularity.</string>
+    <string name="sort_category_value_rating">vote_average.</string>
+    
+    <string name="sort_order_pref_key">sort_order</string>
+    <string name="sort_order_pref_title">Sort Order</string>
+    
+    <!--The labels displayed for options in sort order-->
+    <string name="sort_order_label_asc">Ascending</string>
+    <string name="sort_order_label_desc">Descending</string>
+
+    <!--The actual values of the options in sort order-->
+    <string name="sort_order_value_asc">asc</string>
+    <string name="sort_order_value_desc">desc</string>
+
 </resources>

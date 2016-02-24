@@ -1,5 +1,7 @@
 package com.nano.kunal.moviemonkey;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,19 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private GridView movieGrid;
+    private static final String PREFERENCES_FILE = "preferences";
+    private String sortBy;
+    private String sortOrder;
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES_FILE, 0 );
+        sortBy = sharedPreferences.getString(getString(R.string.sort_category_pref_key), getString(R.string.sort_category_value_popularity));
+        sortOrder = sharedPreferences.getString(getString(R.string.sort_order_pref_key), getString(R.string.sort_order_value_asc));
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FetchMoviesTask task = new FetchMoviesTask(movieAdapter);
+        FetchMoviesTask task = new FetchMoviesTask(movieAdapter, sortBy+sortOrder);
         task.execute();
 
 
@@ -56,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
