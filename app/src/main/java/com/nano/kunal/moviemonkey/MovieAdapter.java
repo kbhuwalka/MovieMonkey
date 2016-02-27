@@ -30,7 +30,7 @@ public class MovieAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return mMoviesArray.get(i);
     }
 
     @Override

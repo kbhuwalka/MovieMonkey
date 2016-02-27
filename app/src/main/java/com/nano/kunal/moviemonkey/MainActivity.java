@@ -3,6 +3,7 @@ package com.nano.kunal.moviemonkey;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,21 +15,38 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.nano.kunal.moviemonkey.Data.CommonUtilities;
+import com.nano.kunal.moviemonkey.Data.MovieObject;
+
 public class MainActivity extends AppCompatActivity {
 
     private GridView movieGrid;
-    private static final String PREFERENCES_FILE = "preferences";
+
+    public static final String MOVIE_DETAILS_EXTRA = "movie_details_extra";
+
+    private MovieAdapter mMovieAdapter;
+
     private String sortBy;
     private String sortOrder;
+    private String previousSortsetting="";
 
     @Override
     protected void onStart(){
         super.onStart();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCES_FILE, 0 );
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sortBy = sharedPreferences.getString(getString(R.string.sort_category_pref_key), getString(R.string.sort_category_value_popularity));
-        sortOrder = sharedPreferences.getString(getString(R.string.sort_order_pref_key), getString(R.string.sort_order_value_asc));
+        sortOrder = sharedPreferences.getString(getString(R.string.sort_order_pref_key), getString(R.string.sort_order_value_desc));
 
+        if(!previousSortsetting.equals(sortBy+sortOrder))  {
+            previousSortsetting = sortBy+sortOrder;
+            updateMovies();
+        }
+    }
+
+    private void updateMovies() {
+        FetchMoviesTask task = new FetchMoviesTask(mMovieAdapter, sortBy+sortOrder);
+        task.execute();
     }
 
     @Override
@@ -36,23 +54,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MovieAdapter movieAdapter = new MovieAdapter(this);
+        mMovieAdapter = new MovieAdapter(this);
 
         //Setting an Adapter to the grid
         movieGrid = (GridView) findViewById(R.id.movieGrid);
-        movieGrid.setAdapter(movieAdapter);
+        movieGrid.setAdapter(mMovieAdapter);
 
         movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, "" + i, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+                CommonUtilities.setMovieExtra((MovieObject) mMovieAdapter.getItem(i));
+                startActivity(intent);
             }
         });
-
-        FetchMoviesTask task = new FetchMoviesTask(movieAdapter, sortBy+sortOrder);
-        task.execute();
-
-
     }
 
     @Override

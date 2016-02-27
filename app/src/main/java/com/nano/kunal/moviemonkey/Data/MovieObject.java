@@ -8,7 +8,9 @@ import android.net.Uri;
 public class MovieObject {
 
     private static final String BASE_IMG_URL = "http://image.tmdb.org/t/p";
+    public static final String LARGE_IMG_SIZE_PATH = "w780";
     private static final String IMG_SIZE_PATH = "w500";
+    public static final String SMALL_IMG_SIZE_PATH = "w300";
     final String API_KEY_PARAM = "api_key";
 
     //Developer Api Key
@@ -18,17 +20,21 @@ public class MovieObject {
     private String release_date;
     private String overview;
     private String poster_path;
+    private String backdrop_path;
 
     private double vote_average;
     private double popularity;
 
     private long movie_id;
 
-    public MovieObject(String title, String release, String mOverview, String backdrop, double vote, double popular, long id){
+    public MovieObject(String title, String release, String mOverview, String poster, String backdrop, double vote, double popular, long id){
         original_title = title;
         release_date = release;
         overview = mOverview;
-        poster_path = backdrop;
+        if(overview.equals(""))
+            overview = "No summary available.";
+        poster_path = poster;
+        backdrop_path = backdrop;
 
         vote_average = vote;
         popularity = popular;
@@ -42,6 +48,10 @@ public class MovieObject {
 
     public String getReleaseDate() {
         return release_date;
+    }
+
+    public String getReleaseYear(){
+        return release_date.substring(0, release_date.indexOf("-"));
     }
 
     public long getMovieId() {
@@ -60,15 +70,30 @@ public class MovieObject {
         return poster_path;
     }
 
-    public String getPosterUrl(){
+    public String getBackdropUrl(){
         String url = Uri.parse(BASE_IMG_URL).buildUpon()
-                .appendPath(IMG_SIZE_PATH)
+                .appendPath(LARGE_IMG_SIZE_PATH)
+                .appendEncodedPath(backdrop_path)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .build()
+                .toString();
+
+        return url;
+    }
+
+    public String getPosterUrl(String size){
+        String url = Uri.parse(BASE_IMG_URL).buildUpon()
+                .appendPath(size)
                 .appendEncodedPath(poster_path)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .build()
                 .toString();
 
         return url;
+    }
+
+    public String getPosterUrl(){
+       return getPosterUrl(IMG_SIZE_PATH);
     }
 
     public String getOverview() {

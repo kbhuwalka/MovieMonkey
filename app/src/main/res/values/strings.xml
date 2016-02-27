@@ -25,5 +25,8 @@
     <!--The actual values of the options in sort order-->
     <string name="sort_order_value_asc">asc</string>
     <string name="sort_order_value_desc">desc</string>
+    <string name="title_activity_movie_details">MovieDetailsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>
