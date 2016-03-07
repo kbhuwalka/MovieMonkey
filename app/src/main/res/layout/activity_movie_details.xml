@@ -21,14 +21,29 @@
             android:minHeight="200dp"
             android:background="#ff7b7b7b" />
 
-            <LinearLayout
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/posterImageView"
+            android:paddingLeft="16dp"
+            android:paddingTop="128dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:visibility="visible"/>
+
+        <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:baselineAligned="true"
                 android:id="@+id/titleLinearLayout"
-                android:paddingLeft="8dp">
+                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:layout_below="@+id/backdropImageView"
+                android:layout_toRightOf="@+id/posterImageView"
+                android:layout_toEndOf="@+id/posterImageView">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -49,21 +64,13 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/posterImageView"
-                android:paddingRight="16dp"
-                android:paddingTop="128dp"
-                android:layout_weight="1"
-                android:scaleType="centerCrop" />
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/titleLinearLayout"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:id="@+id/linearLayout">
 
             <TextView
                 android:layout_width="wrap_content"
