@@ -14,7 +14,7 @@ public class MovieObject {
     final String API_KEY_PARAM = "api_key";
 
     //Developer Api Key
-    final String API_KEY = "85d62bbc194880880325544a0d180547";
+    final String API_KEY = "";
 
     private String original_title;
     private String release_date;
