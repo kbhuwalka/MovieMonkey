@@ -13,7 +13,7 @@ import com.nano.kunal.moviemonkey.Data.MovieObject;
 import com.squareup.picasso.Picasso;
 
 
-public class MovieDetailsActivity extends ActionBarActivity {
+public class MovieDetailsActivity extends AppCompatActivity {
 
     private MovieObject movie;
 
