@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMovies() {
-        FetchMoviesTask task = new FetchMoviesTask(mMovieAdapter, sortBy+sortOrder);
+        FetchMoviesTask task = new FetchMoviesTask(this, mMovieAdapter, sortBy+sortOrder);
         task.execute();
     }
 

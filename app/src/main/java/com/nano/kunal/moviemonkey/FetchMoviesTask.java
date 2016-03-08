@@ -1,6 +1,9 @@
 package com.nano.kunal.moviemonkey;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -29,14 +32,20 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
 
     private MovieAdapter mAdapter;
     private String sortQuery;
+    private Context mContext;
 
-    public FetchMoviesTask(MovieAdapter adapter, String sort){
+    public FetchMoviesTask(Context context, MovieAdapter adapter, String sort){
+        mContext = context;
         mAdapter = adapter;
         sortQuery = sort;
     }
 
     @Override
     protected MovieObject[] doInBackground(Void... voids) {
+
+        if(!isNetworkAvailable()){
+            return null;
+        }
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -118,6 +127,18 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
         }
     }
 
+    private boolean isNetworkAvailable() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+
+        boolean isConnected = (activeNetwork!=null) && (activeNetwork.isConnectedOrConnecting());
+
+        if(isConnected) return true;
+
+        return false;
+    }
+
     private MovieObject[] getDataFromJson(String jsonStr) throws JSONException {
 
         final String JSON_RESULTS = "results";
@@ -167,12 +188,11 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
     @Override
     protected void onPostExecute(MovieObject[] movieArray) {
         super.onPostExecute(movieArray);
-        if(movieArray != null)
+        if(movieArray != null){
             MovieAdapter.mMoviesArray.clear();
-
-        for(MovieObject item : movieArray)
-            MovieAdapter.mMoviesArray.add(item);
-
-        mAdapter.notifyDataSetChanged();
+            for(MovieObject item : movieArray)
+                MovieAdapter.mMoviesArray.add(item);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }
