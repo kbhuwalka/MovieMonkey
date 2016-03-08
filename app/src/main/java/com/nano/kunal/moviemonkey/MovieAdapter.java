@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
@@ -53,7 +54,10 @@ public class MovieAdapter extends BaseAdapter {
 
         ImageView imageView = (ImageView) gridItem.findViewById(R.id.imageView);
 
-        Picasso.with(mContext).load(mMoviesArray.get(i).getPosterUrl()).into(imageView);
+        String posterUrl = mMoviesArray.get(i).getPosterUrl();
+
+        if(URLUtil.isValidUrl(posterUrl) && posterUrl!="" && posterUrl!=null)
+            Picasso.with(mContext).load(posterUrl).into(imageView);
 
         return imageView;
     }

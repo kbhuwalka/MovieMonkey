@@ -59,7 +59,7 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, MovieObject[]> {
         final String SORT_BY_PARAM = "sort_by";
 
         //Developer Api Key
-        final String API_KEY = "";
+        final String API_KEY = MovieObject.API_KEY;
 
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendPath(DISCOVER_PATH)
