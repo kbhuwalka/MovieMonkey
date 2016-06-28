@@ -1,4 +1,4 @@
-package com.nano.kunal.moviemonkey;
+package com.nano.kunal.moviemonkey.UI;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
+
+import com.nano.kunal.moviemonkey.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.

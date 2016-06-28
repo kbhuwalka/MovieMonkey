@@ -1,34 +1,28 @@
-package com.nano.kunal.moviemonkey;
+package com.nano.kunal.moviemonkey.UI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
 
-import com.nano.kunal.moviemonkey.Data.CommonUtilities;
-import com.nano.kunal.moviemonkey.Data.MovieObject;
+import com.nano.kunal.moviemonkey.FetchMoviesTask;
+import com.nano.kunal.moviemonkey.R;
 
-public class MainActivity extends AppCompatActivity {
-
-    private GridView movieGrid;
+public class MainActivity extends AppCompatActivity implements MovieListFragment.Callback {
 
     public static final String MOVIE_DETAILS_EXTRA = "movie_details_extra";
-
-    private MovieAdapter mMovieAdapter;
+    private static final String DETAIL_FRAGMENT_TAG = "Movie Detail Fragment";
 
     private String sortBy;
     private String sortOrder;
     private String previousSortsetting="";
+
+    //Indicates whether a master-detail flow is being used or not
+    boolean mTwoPaneLayout;
 
     @Override
     protected void onStart(){
@@ -45,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMovies() {
-        FetchMoviesTask task = new FetchMoviesTask(this, mMovieAdapter, sortBy+sortOrder);
+        Bundle args = new Bundle();
+        args.putString(FetchMoviesTask.SORT_KEY, sortBy+sortOrder);
+
+        FetchMoviesTask task = new FetchMoviesTask(this,args,FetchMoviesTask.FETCH_MOVIES );
         task.execute();
     }
 
@@ -54,20 +51,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mMovieAdapter = new MovieAdapter(this);
+        if(findViewById(R.id.movie_detail_container) != null){
+            mTwoPaneLayout = true;
 
-        //Setting an Adapter to the grid
-        movieGrid = (GridView) findViewById(R.id.movieGrid);
-        movieGrid.setAdapter(mMovieAdapter);
+            if(savedInstanceState == null)
+                getSupportFragmentManager().beginTransaction()
+                .add(R.id.movie_detail_container, new MovieDetailsFragment(), DETAIL_FRAGMENT_TAG)
+                .commit();
+        } else {
+            mTwoPaneLayout = false;
+        }
+    }
 
-        movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
-                CommonUtilities.setMovieExtra((MovieObject) mMovieAdapter.getItem(i));
-                startActivity(intent);
-            }
-        });
+    //The method is called through an instance of MovieDetailsFragment when an item is clicked
+    @Override
+    public void onItemSelected(Uri uri) {
+        if(mTwoPaneLayout){
+            MovieDetailsFragment detailsFragment = new MovieDetailsFragment();
+
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(MovieDetailsFragment.DETAIL_URI, uri);
+            detailsFragment.setArguments(arguments);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, detailsFragment, DETAIL_FRAGMENT_TAG)
+                    .commit();
+        } else {
+            Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+            intent.setData(uri);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -93,4 +106,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

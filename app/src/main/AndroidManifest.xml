@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".UI.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" >
             <intent-filter>
@@ -22,17 +22,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".UI.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".MovieDetailsActivity"
+            android:name=".UI.MovieDetailsActivity"
             android:label="@string/title_activity_movie_details"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".UI.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nano.kunal.moviemonkey.MainActivity" />
+                android:value=".UI.MainActivity" />
         </activity>
+        <provider
+            android:authorities="com.nano.kunal.moviemonkey.provider"
+            android:name=".Data.MovieProvider"
+            android:syncable="true"/>
     </application>
 
 </manifest>

@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:numColumns="2"
-    android:verticalSpacing="2dp"
-    android:horizontalSpacing="2dp"
-    android:stretchMode="columnWidth"
-    android:gravity="center"
-    tools:context="com.nano.kunal.moviemonkey.MainActivity"
-    android:id="@+id/movieGrid"
-    android:fastScrollEnabled="false"
-    android:background="#000000">
-
-</GridView>
+    android:id="@+id/fragment_movie_list"
+    android:name="com.nano.kunal.moviemonkey.UI.MovieListFragment"
+    tools:context=".UI.MovieListFragment"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:layout="@layout/movie_list_fragment"/>
