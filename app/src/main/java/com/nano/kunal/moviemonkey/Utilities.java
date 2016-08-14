@@ -17,7 +17,6 @@ public class Utilities {
     private static final String API_KEY_PARAM = "api_key";
 
     public static final String IMG_SIZE_PATH = "w500";
-    public static final String SMALL_IMG_SIZE_PATH = "w300";
     public static final String LARGE_IMG_SIZE_PATH = "w780";
 
 

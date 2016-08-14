@@ -12,8 +12,8 @@
     <string name="sort_category_label_rating">Rating</string>
 
     <!--The actual values of the options in sort category-->
-    <string name="sort_category_value_popularity">popularity.</string>
-    <string name="sort_category_value_rating">vote_average.</string>
+    <string name="sort_category_value_popularity">popular</string>
+    <string name="sort_category_value_rating">top_rated</string>
     
     <string name="sort_order_pref_key">sort_order</string>
     <string name="sort_order_pref_title">Sort Order</string>
@@ -28,5 +28,8 @@
     <string name="title_activity_movie_details">MovieDetailsActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="favorite_pref_key">favorite_pref_key</string>
+    <string name="favorite_pref_title">Favorites</string>
+    <string name="favorite_pref_summary">Show only favorite movies</string>
 
 </resources>
