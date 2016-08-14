@@ -2,6 +2,8 @@ package com.nano.kunal.moviemonkey.UI;
 
 
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.nano.kunal.moviemonkey.Adapters.MediaAdapter;
 import com.nano.kunal.moviemonkey.Adapters.ReviewsAdapter;
 import com.nano.kunal.moviemonkey.Data.MovieContract;
@@ -36,9 +40,6 @@ import com.squareup.picasso.Target;
  */
 public class MovieDetailsFragment extends Fragment {
 
-    //Tag used for logging debug statements
-    public static final String LOG_TAG = MovieDetailsFragment.class.getSimpleName();
-
     //Views present in the layout
     private TextView titleTextView;
     private TextView summaryTextView;
@@ -47,6 +48,7 @@ public class MovieDetailsFragment extends Fragment {
     private View rootView;
     private TextView noMediaTextView;
     private TextView noReviewsTextView;
+    private com.like.LikeButton favoriteButton;
 
     private Uri mUri;
 
@@ -102,6 +104,7 @@ public class MovieDetailsFragment extends Fragment {
         summaryTextView = (TextView) rootView.findViewById(R.id.summaryTextView);
         ratingTextView = (TextView) rootView.findViewById(R.id.ratingTextView);
         releaseTextView = (TextView) rootView.findViewById(R.id.releaseTextView);
+        favoriteButton = (LikeButton) rootView.findViewById(R.id.favoriteIcon);
 
         noMediaTextView = (TextView) rootView.findViewById(R.id.noMediaTextView);
         noReviewsTextView = (TextView) rootView.findViewById(R.id.noReviewsTextView);
@@ -176,6 +179,26 @@ public class MovieDetailsFragment extends Fragment {
 
         String summary = data.getString(Utilities.DetailsProjection.COL_OVERVIEW);
             summaryTextView.setText(summary);
+
+        final long movieId = data.getLong(Utilities.DetailsProjection.COL_MOVIE_ID);
+        final Uri favoriteUri = MovieContract.FavoriteEntry.buildFavoritesUri(movieId);
+        Cursor favoriteCursor = getActivity().getContentResolver().query(favoriteUri, null, null, null, null);
+        if(favoriteCursor!=null && favoriteCursor.moveToFirst())
+            favoriteButton.setLiked(true);
+
+        favoriteButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                ContentValues values = new ContentValues();
+                values.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_ID, movieId);
+                getActivity().getContentResolver().insert(MovieContract.FavoriteEntry.CONTENT_URI, values);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                getActivity().getContentResolver().delete(favoriteUri, null, null);
+            }
+        });
     }
 
     public void renderMedia(Cursor data){

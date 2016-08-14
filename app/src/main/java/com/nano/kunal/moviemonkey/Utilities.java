@@ -9,7 +9,7 @@ import com.nano.kunal.moviemonkey.Data.MovieContract;
  */
 public class Utilities {
     //Developer Api Key
-    public static final String API_KEY = "85d62bbc194880880325544a0d180547";
+    public static final String API_KEY = "";
     public static final int MEDIA_TYPE_POSTER =10;
     public static final int MEDIA_TYPE_BACKDROP =20;
     public static final int MEDIA_TYPE_VIDEO =30;
@@ -41,6 +41,10 @@ public class Utilities {
                 .toString();
 
         return url;
+    }
+
+    public static String getThumbnailUrl(String path) {
+        return String.format("http://img.youtube.com/vi/%s/0.jpg", path);
     }
 
     public static final class DetailsProjection{

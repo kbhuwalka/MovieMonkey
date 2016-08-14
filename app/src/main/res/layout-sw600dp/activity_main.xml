@@ -6,13 +6,11 @@
     android:orientation="horizontal"
     tools:context=".UI.MainActivity">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragment_movie_list"
-        android:name="com.nano.kunal.moviemonkey.UI.MovieListFragment"
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="2"
-        tools:layout="@layout/movie_list_fragment"/>
+        android:layout_weight="2"/>
 
     <FrameLayout
         android:id="@+id/movie_detail_container"

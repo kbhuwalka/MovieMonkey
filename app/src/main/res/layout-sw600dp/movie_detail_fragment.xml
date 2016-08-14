@@ -5,15 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#212121"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
+    android:padding="32dp"
     android:id="@+id/detailRootView"
     android:fillViewport="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
         android:paddingBottom="@dimen/activity_vertical_margin"
         tools:context=".UI.MovieDetailsActivity"
         android:id="@+id/movieDetailsRoot"
@@ -22,8 +20,8 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
             android:layout_marginBottom="24dp"
             android:id="@+id/titleCard">
 
@@ -125,8 +123,8 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
             android:layout_marginBottom="24dp">
 
             <LinearLayout
@@ -171,8 +169,8 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
             android:layout_marginBottom="24dp">
 
             <LinearLayout

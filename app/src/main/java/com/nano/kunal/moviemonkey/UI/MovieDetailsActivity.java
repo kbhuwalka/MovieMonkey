@@ -5,13 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.nano.kunal.moviemonkey.Model.MovieObject;
 import com.nano.kunal.moviemonkey.R;
 
 
 public class MovieDetailsActivity extends AppCompatActivity {
-
-    private MovieObject movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

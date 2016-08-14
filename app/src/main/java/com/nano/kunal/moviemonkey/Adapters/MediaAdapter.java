@@ -2,6 +2,8 @@ package com.nano.kunal.moviemonkey.Adapters;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +40,9 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String url = "";
-        MediaObject item = data[position];
-        switch (item.getType()){
+        final MediaObject item = data[position];
+        int itemType = item.getType();
+        switch (itemType){
             case Utilities.MEDIA_TYPE_BACKDROP:
                 url = Utilities.getBackdropUrl(item.getPath());
                 break;
@@ -47,9 +50,25 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.ViewHolder> 
                 url = Utilities.getPosterUrl(item.getPath(), Utilities.IMG_SIZE_PATH);
                 break;
             case Utilities.MEDIA_TYPE_VIDEO:
-                url =  "";
+                url =  Utilities.getThumbnailUrl(item.getPath());
+                break;
         }
         Picasso.with(mContext).load(url).into(holder.imageView);
+
+        if(itemType == Utilities.MEDIA_TYPE_VIDEO){
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String videoUrl = String.format("https://www.youtube.com/watch?v=%s", item.getPath());
+                    Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
+                    mContext.startActivity(playVideoIntent);
+                }
+            });
+        }
+        else {
+            holder.imageView.setOnClickListener(null);
+        }
+
     }
 
     @Override

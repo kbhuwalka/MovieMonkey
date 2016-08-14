@@ -3,6 +3,7 @@ package com.nano.kunal.moviemonkey;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -98,10 +99,9 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
     private void fetchMovies() {
         String sortQuery = arguments.getString(SORT_KEY);
         Uri uri = Uri.parse(BASE_URL).buildUpon()
-                .appendPath(DISCOVER_PATH)
                 .appendPath(MOVIE_PATH)
+                .appendPath(sortQuery)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
-                .appendQueryParameter(SORT_BY_PARAM, sortQuery)
                 .build();
 
         Log.v("URL: ", uri.toString());
@@ -170,6 +170,12 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
         if(!arguments.containsKey(MOVIE_ID_KEY))
             return;
         long id = arguments.getLong(MOVIE_ID_KEY);
+
+        Uri reviewUri = MovieContract.ReviewsEntry.buildReviewsUri(id);
+        Cursor cursor = mContext.getContentResolver().query(reviewUri, null, null, null, null);
+        if(cursor==null || cursor.moveToFirst())
+            return;
+
         Uri uri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(MOVIE_PATH)
                 .appendPath(Long.toString(id))
@@ -215,6 +221,10 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
         if(!arguments.containsKey(MOVIE_ID_KEY))
             return;
         long id = arguments.getLong(MOVIE_ID_KEY);
+        Uri getMediaforIdUri = MovieContract.MediaEntry.buildMediaUri(id);
+        Cursor cursor = mContext.getContentResolver().query(getMediaforIdUri,null, null, null, null);
+        if(cursor == null || cursor.moveToFirst())
+            return;
         Uri uri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(MOVIE_PATH)
                 .appendPath(Long.toString(id))
@@ -254,7 +264,7 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
             JSONObject media = videos.getJSONObject(i);
             mediaList.add(new MediaObject(
                     movieId,
-                    MediaObject.TYPE_BACKDROP,
+                    MediaObject.TYPE_VIDEO,
                     media.getString(JSON_KEY)
             ));
         }
@@ -298,7 +308,10 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
             return;
         ContentValues[] values = MediaObject.toContentValuesArray(mediaList);
 
-        mContext.getContentResolver().bulkInsert(MovieContract.MediaEntry.CONTENT_URI, values);
+        ContentResolver resolver = mContext.getContentResolver();
+        int rowsInserted = resolver.bulkInsert(MovieContract.MediaEntry.CONTENT_URI, values);
+        resolver.notifyChange(MovieContract.MediaEntry.CONTENT_URI, null);
+        Log.d(LOG_TAG, "persistMediaData: Rows inserted into Media table- " + rowsInserted);
     }
 
     private String getDatafromUrl(String urlString) {

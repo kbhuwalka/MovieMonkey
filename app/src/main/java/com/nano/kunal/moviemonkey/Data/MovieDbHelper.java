@@ -127,19 +127,19 @@ public class MovieDbHelper extends SQLiteOpenHelper {
          *       _id INTEGER PRIMARY KEY,
          *       movie_id INTEGER NOT NULL,
          *       author TEXT NOT NULL,
-         *       content TEXT NOT NULL,
+         *       content TEXT UNIQUE NOT NULL,
          *       FOREIGN KEY (movie_id)
          *       REFERENCES movies
          *        (movie_id)
          *   );
          */
 
-        final String SQL_CREATE_REVIES_TABLE = "" +
+        final String SQL_CREATE_REVIEwS_TABLE = "" +
                 "CREATE TABLE "+ MovieContract.ReviewsEntry.TABLE_NAME+ " (" +
                 MovieContract.ReviewsEntry._ID+ " INTEGER PRIMARY KEY, " +
                 MovieContract.ReviewsEntry.COLUMN_MOVIE_ID+ " INTEGER NOT NULL, " +
                 MovieContract.ReviewsEntry.COLUMN_AUTHOR+ " TEXT NOT NULL, " +
-                MovieContract.ReviewsEntry.COLUMN_CONTENT+ " TEXT NOT NULL," +
+                MovieContract.ReviewsEntry.COLUMN_CONTENT+ " TEXT UNIQUE NOT NULL," +
                 "FOREIGN KEY (" + MovieContract.ReviewsEntry.COLUMN_MOVIE_ID + ") " +
                 "REFERENCES "+ MovieContract.MovieEntry.TABLE_NAME+
                 " ("+ MovieContract.MovieEntry.COLUMN_MOVIE_ID+") "+
@@ -150,7 +150,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_MOVIES_GENRE_TABLE);
         db.execSQL(SQL_CREATE_FAVORITES_TABLE);
         db.execSQL(SQL_CREATE_MEDIA_TABLE);
-        db.execSQL(SQL_CREATE_REVIES_TABLE);
+        db.execSQL(SQL_CREATE_REVIEwS_TABLE);
 
     }
 

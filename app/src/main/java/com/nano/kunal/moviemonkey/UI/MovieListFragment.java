@@ -1,12 +1,14 @@
 package com.nano.kunal.moviemonkey.UI;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
+
+
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +31,12 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     private MovieAdapter movieAdapter;
 
     private static final String[] MOVIE_PROJECTION = {
-            MovieContract.MovieEntry.COLUMN_MOVIE_ID,
+            MovieContract.MovieEntry.TABLE_NAME+"."+MovieContract.MovieEntry.COLUMN_MOVIE_ID,
             MovieContract.MovieEntry.COLUMN_TITLE,
             MovieContract.MovieEntry.COLUMN_POSTER_PATH,
             MovieContract.MovieEntry.COLUMN_POPULARITY,
             MovieContract.MovieEntry.COLUMN_RATING,
-            MovieContract.MovieEntry._ID
+            MovieContract.MovieEntry.TABLE_NAME+"."+MovieContract.MovieEntry._ID
     };
 
     private static final int MOVIE_LOADER = 100;
@@ -45,6 +47,8 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     public static final int COL_POPULARITY = 3;
     public static final int COL_RATING = 4;
     public static final int COL_ID = 5;
+
+    public static final String URI_KEY = " favorite_uri";
 
     private Uri mUri;
 
@@ -60,7 +64,13 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUri = MovieContract.MovieEntry.CONTENT_URI;
+        Bundle args = getArguments();
+        if(args!=null && args.containsKey(URI_KEY)){
+            mUri = Uri.parse(args.getString(URI_KEY));
+        }else{
+            mUri = MovieContract.MovieEntry.CONTENT_URI;
+        }
+
     }
 
     @Override
@@ -104,7 +114,7 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri uri = MovieContract.MovieEntry.CONTENT_URI;
         return new CursorLoader(getActivity(),
-                uri,
+                mUri,
                 MOVIE_PROJECTION, //Projection
                 null,
                 null,
@@ -114,8 +124,6 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         movieAdapter.swapCursor(data);
-        View view = movieAdapter.getView(0,null,null);
-        mGridView.performItemClick(view, 0, 0);
     }
 
     @Override

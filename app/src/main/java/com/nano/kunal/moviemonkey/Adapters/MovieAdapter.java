@@ -46,7 +46,7 @@ public class MovieAdapter extends CursorAdapter {
 
         String posterUrl = Utilities.getPosterUrl(
                 cursor.getString(MovieListFragment.COL_POSTER_PATH),
-                Utilities.SMALL_IMG_SIZE_PATH);
+                Utilities.IMG_SIZE_PATH);
         Picasso.with(context).load(posterUrl).into(holder.posterImageView);
     }
 }

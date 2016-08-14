@@ -291,6 +291,10 @@ public class MovieProvider extends ContentProvider {
             }
             case MEDIA_WITH_ID: {
                 tableName = MovieContract.MediaEntry.TABLE_NAME;
+                selection = mediaSelectionById;
+                selectionArgs = new String[]{
+                  Long.toString(MovieContract.ReviewsEntry.getMovieIdFromUri(uri))
+                };
                 break;
             }
             case MEDIA_WITH_ID_AND_TYPE: {
@@ -313,6 +317,11 @@ public class MovieProvider extends ContentProvider {
                 null,
                 null,
                 sortOrder
+        );
+
+        returnCursor.setNotificationUri(
+                getContext().getContentResolver(),
+                uri
         );
 
         return returnCursor;
@@ -349,12 +358,12 @@ public class MovieProvider extends ContentProvider {
                 break;
             }
             case FAVORITE:{
-                long _id = db.insert(MovieContract.MoviesGenre.TABLE_NAME, null, values);
+                long _id = db.insert(MovieContract.FavoriteEntry.TABLE_NAME, null, values);
                 if(_id > 0){
-                    returnUri = MovieContract.MoviesGenre.CONTENT_URI;
+                    returnUri = MovieContract.FavoriteEntry.CONTENT_URI;
                 } else {
                     throw new SQLException(String.format("Failed to insert row into %s table.",
-                            MovieContract.MoviesGenre.TABLE_NAME));
+                            MovieContract.FavoriteEntry.TABLE_NAME));
                 }
                 break;
             }
