@@ -2,7 +2,7 @@ package com.nano.kunal.moviemonkey;
 
 import android.net.Uri;
 
-import com.nano.kunal.moviemonkey.Data.MovieContract;
+import com.nano.kunal.moviemonkey.data.MovieContract;
 
 /**
  * Created by Kunal on 6/27/2016.

@@ -1,4 +1,4 @@
-package com.nano.kunal.moviemonkey.UI;
+package com.nano.kunal.moviemonkey.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

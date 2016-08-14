@@ -1,8 +1,8 @@
-package com.nano.kunal.moviemonkey.Model;
+package com.nano.kunal.moviemonkey.model;
 
 import android.content.ContentValues;
 
-import com.nano.kunal.moviemonkey.Data.MovieContract;
+import com.nano.kunal.moviemonkey.data.MovieContract;
 import com.nano.kunal.moviemonkey.Utilities;
 
 import java.util.Vector;

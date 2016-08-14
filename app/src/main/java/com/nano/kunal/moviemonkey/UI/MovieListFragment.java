@@ -1,4 +1,4 @@
-package com.nano.kunal.moviemonkey.UI;
+package com.nano.kunal.moviemonkey.ui;
 
 
 
@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.nano.kunal.moviemonkey.Adapters.MovieAdapter;
-import com.nano.kunal.moviemonkey.Data.MovieContract;
+import com.nano.kunal.moviemonkey.adapters.MovieAdapter;
+import com.nano.kunal.moviemonkey.data.MovieContract;
 import com.nano.kunal.moviemonkey.R;
+
+import butterknife.BindView;
 
 /**
  * Created by Kunal on 6/25/2016.
@@ -84,9 +86,9 @@ public class MovieListFragment extends Fragment implements LoaderManager.LoaderC
         super.onCreateView(inflater, container, savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.movie_list_fragment, container,false);
+        mGridView = (GridView) rootView.findViewById(R.id.movieGrid);
 
         movieAdapter = new MovieAdapter(getActivity(),null,0);
-        mGridView = (GridView) rootView.findViewById(R.id.movieGrid);
         mGridView.setAdapter(movieAdapter);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

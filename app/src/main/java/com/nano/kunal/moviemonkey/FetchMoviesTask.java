@@ -12,10 +12,10 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
 
-import com.nano.kunal.moviemonkey.Model.MediaObject;
-import com.nano.kunal.moviemonkey.Data.MovieContract;
-import com.nano.kunal.moviemonkey.Model.MovieObject;
-import com.nano.kunal.moviemonkey.Model.ReviewObject;
+import com.nano.kunal.moviemonkey.model.MediaObject;
+import com.nano.kunal.moviemonkey.data.MovieContract;
+import com.nano.kunal.moviemonkey.model.MovieObject;
+import com.nano.kunal.moviemonkey.model.ReviewObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -127,6 +127,8 @@ public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
         final String JSON_POSTER_PATH = "poster_path";
         final String JSON_BACKDROP_PATH = "backdrop_path";
 
+        if(jsonStr == null)
+            return;
 
         //The enclosing JSON object
         JSONObject moviesJson = new JSONObject(jsonStr);

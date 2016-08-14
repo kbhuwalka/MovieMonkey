@@ -1,4 +1,4 @@
-package com.nano.kunal.moviemonkey.Data;
+package com.nano.kunal.moviemonkey.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

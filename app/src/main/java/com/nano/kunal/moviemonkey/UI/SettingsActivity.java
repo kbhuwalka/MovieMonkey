@@ -1,14 +1,16 @@
-package com.nano.kunal.moviemonkey.UI;
+package com.nano.kunal.moviemonkey.ui;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.view.KeyEvent;
+import android.support.v4.app.NavUtils;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.nano.kunal.moviemonkey.R;
+import com.nano.kunal.moviemonkey.SettingsActivityWithAppBar;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
@@ -18,7 +20,7 @@ import com.nano.kunal.moviemonkey.R;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity
+public class SettingsActivity extends SettingsActivityWithAppBar
         implements Preference.OnPreferenceChangeListener {
 
     @Override
@@ -26,7 +28,6 @@ public class SettingsActivity extends PreferenceActivity
         super.onCreate(savedInstanceState);
         // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.preferences);
-
         bindPreferenceSummaryToValue(findPreference(getString(R.string.sort_category_pref_key)));
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
@@ -73,6 +74,15 @@ public class SettingsActivity extends PreferenceActivity
         return true;
     }
 
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            if (!super.onOptionsItemSelected(item)) {
+                NavUtils.navigateUpFromSameTask(this);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

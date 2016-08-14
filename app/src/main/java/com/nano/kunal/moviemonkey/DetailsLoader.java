@@ -8,7 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
-import com.nano.kunal.moviemonkey.UI.MovieDetailsFragment;
+import com.nano.kunal.moviemonkey.ui.MovieDetailsFragment;
 
 /**
  * Created by Kunal on 6/27/2016.

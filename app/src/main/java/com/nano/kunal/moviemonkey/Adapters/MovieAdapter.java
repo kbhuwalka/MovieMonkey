@@ -1,4 +1,4 @@
-package com.nano.kunal.moviemonkey.Adapters;
+package com.nano.kunal.moviemonkey.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 
-import com.nano.kunal.moviemonkey.UI.MovieListFragment;
+import com.nano.kunal.moviemonkey.ui.MovieListFragment;
 import com.nano.kunal.moviemonkey.R;
 import com.nano.kunal.moviemonkey.Utilities;
 import com.squareup.picasso.Picasso;

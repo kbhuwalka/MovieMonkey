@@ -1,6 +1,5 @@
-package com.nano.kunal.moviemonkey.Adapters;
+package com.nano.kunal.moviemonkey.adapters;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.nano.kunal.moviemonkey.Model.MediaObject;
+import com.nano.kunal.moviemonkey.model.MediaObject;
 import com.nano.kunal.moviemonkey.R;
 import com.nano.kunal.moviemonkey.Utilities;
 import com.squareup.picasso.Picasso;
@@ -61,7 +60,8 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.ViewHolder> 
                 public void onClick(View v) {
                     String videoUrl = String.format("https://www.youtube.com/watch?v=%s", item.getPath());
                     Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl));
-                    mContext.startActivity(playVideoIntent);
+                    if(playVideoIntent.resolveActivity(mContext.getPackageManager())!=null)
+                        mContext.startActivity(playVideoIntent);
                 }
             });
         }

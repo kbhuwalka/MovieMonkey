@@ -1,15 +1,16 @@
-package com.nano.kunal.moviemonkey.UI;
+package com.nano.kunal.moviemonkey.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.nano.kunal.moviemonkey.Data.MovieContract;
+import com.nano.kunal.moviemonkey.data.MovieContract;
 import com.nano.kunal.moviemonkey.FetchMoviesTask;
 import com.nano.kunal.moviemonkey.R;
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
     public static final String MOVIE_DETAILS_EXTRA = "movie_details_extra";
     private static final String DETAIL_FRAGMENT_TAG = "Movie Detail Fragment";
     private static final String MOVIE_LIST_FRAGMENT_TAG = "Movie List Fragment" ;
+    private static final String FAVORITE_FRAGMENT_TAG = "favorite_fragment";
 
     private static boolean showFavorite;
     private String sortBy;
@@ -39,14 +41,22 @@ public class MainActivity extends AppCompatActivity implements MovieListFragment
         sortBy = sharedPreferences.getString(getString(R.string.sort_category_pref_key), getString(R.string.sort_category_value_popularity));
         showFavorite = sharedPreferences.getBoolean(getString(R.string.favorite_pref_key), false);
 
-        if(showFavorite){
+        if(showFavorite &&
+                getSupportFragmentManager().findFragmentByTag(FAVORITE_FRAGMENT_TAG) == null){
             MovieListFragment favoritesFragment = new MovieListFragment();
             Bundle args = new Bundle();
             args.putString(MovieListFragment.URI_KEY, MovieContract.FavoriteEntry.CONTENT_URI+"");
             favoritesFragment.setArguments(args);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_movie_list,favoritesFragment)
+                    .add(R.id.fragment_movie_list,favoritesFragment, FAVORITE_FRAGMENT_TAG)
+                    .addToBackStack(FAVORITE_FRAGMENT_TAG)
                     .commit();
+        }
+
+        if(!showFavorite){
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(FAVORITE_FRAGMENT_TAG);
+            if(fragment != null)
+                getSupportFragmentManager().popBackStack();
         }
 
         if(!previousSortsetting.equals(sortBy))  {
